@@ -1,11 +1,17 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
+import { withTranslation } from 'react-i18next';
 
-export default class App extends React.Component {
+
+class App extends React.Component {
     render() {
+        const t = this.props.t;
         return (
             <View>
+                <Text>{t('test')}</Text>
             </View>
         )
     }
 }
+
+export default withTranslation()(App);

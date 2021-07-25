@@ -10,8 +10,11 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "i18next": "^20.3.5",
     "react": "17.0.1",
-    "react-native": "0.64.2"
+    "react-i18next": "^11.11.3",
+    "react-native": "0.64.2",
+    "react-native-localize": "^2.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
