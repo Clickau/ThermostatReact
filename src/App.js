@@ -1,17 +1,11 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import { withTranslation } from 'react-i18next';
 
+import SchedulesScreen from './components/SchedulesScreen';
 
-class App extends React.Component {
+export default class App extends React.Component {
     render() {
-        const t = this.props.t;
         return (
-            <View>
-                <Text>{t('test')}</Text>
-            </View>
+            <SchedulesScreen />
         )
     }
 }
-
-export default withTranslation()(App);

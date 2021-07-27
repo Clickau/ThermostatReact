@@ -1,5 +1,12 @@
 {
     "common": {
-        "test": "testRO"
+    },
+    "schedule": {
+        "Daily": "Zilnic",
+        "Weekly": "Săptămânal",
+        "Once": "O dată",
+        "Start": "Început",
+        "End": "Sfârșit",
+        "On": "În ziua de"
     }
 }

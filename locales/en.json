@@ -1,5 +1,12 @@
 {
     "common": {
-        "test": "testEN"
+    },
+    "schedule": {
+        "Daily": "Daily",
+        "Weekly": "Weekly",
+        "Once": "Once",
+        "Start": "Start",
+        "End": "End",
+        "On": "On"
     }
 }
