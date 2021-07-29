@@ -3,6 +3,7 @@ import { FlatList, View } from 'react-native';
 
 import ScheduleView from './ScheduleView';
 import fetchDummyData from '../DummyData';
+import AddScheduleButton from './AddScheduleButton';
 
 export default class SchedulesScreen extends React.Component {
     state = {
@@ -25,7 +26,8 @@ export default class SchedulesScreen extends React.Component {
                     keyExtractor={item => `${item.setTemp}_${item.repeat}_${item.weekdays}_${item.startDate}_${item.endDate}`}
                     showsVerticalScrollIndicator={false}
                     onRefresh={this.onRefresh.bind(this)}
-                    refreshing={this.state.refreshing} />
+                    refreshing={this.state.refreshing}
+                    ListHeaderComponent={AddScheduleButton} />
             </View>
         )
     }

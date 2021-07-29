@@ -8,5 +8,8 @@
         "Start": "Start",
         "End": "End",
         "On": "On"
+    },
+    "schedulesScreen": {
+        "Add Schedule": "Add Schedule"
     }
 }

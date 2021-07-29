@@ -8,5 +8,8 @@
         "Start": "Început",
         "End": "Sfârșit",
         "On": "În ziua de"
+    },
+    "schedulesScreen": {
+        "Add Schedule": "Adaugă program"
     }
 }
