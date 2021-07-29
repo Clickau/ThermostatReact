@@ -1,24 +1,26 @@
 import React from 'react';
 import { FlatList, View } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 
 import ScheduleView from './ScheduleView';
 import fetchDummyData from '../DummyData';
 import AddScheduleButton from './AddScheduleButton';
 
-export default class SchedulesScreen extends React.Component {
+class SchedulesScreen extends React.Component {
     state = {
         schedules: null,
         refreshing: false,
     }
 
-    render()
-    {
+    render() {
+        const { colors } = this.props.theme;
+
         return (
             <View style={{
                 flex: 1,
                 alignItems: 'stretch',
                 justifyContent: 'center',
-                backgroundColor: '#fff'
+                backgroundColor: colors.background,
             }}>
                 <FlatList
                     data={this.state.schedules}
@@ -40,4 +42,10 @@ export default class SchedulesScreen extends React.Component {
         this.setState({ refreshing: true });
         fetchDummyData().then(data => this.setState({ refreshing: false, schedules: data }));
     }
+}
+
+export default (props) => {
+    const theme = useTheme();
+
+    return <SchedulesScreen {...props} theme={theme} />
 }

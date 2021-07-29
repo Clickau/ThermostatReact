@@ -1,8 +1,10 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { useTheme } from '@react-navigation/native';
 
 import { ShortWeekdayNames } from '../Utils';
+import ThemedText from './ThemedText';
 
 class ScheduleView extends React.Component {
     state = {
@@ -11,6 +13,7 @@ class ScheduleView extends React.Component {
 
     render() {
         const t = this.props.t;
+        const { dark, colors } = this.props.theme;
         const schedule = this.state.schedule;
 
         const fullDateFormat = new Intl.DateTimeFormat(undefined, {
@@ -34,34 +37,40 @@ class ScheduleView extends React.Component {
                 padding: 20,
                 borderWidth: 1,
                 borderRadius: 10,
-                borderColor: 'lightgray',
+                borderColor: colors.border,
+                backgroundColor: colors.card,
             }}>
                 <View style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                 }}>
                     <Text style={{
+                        color: dark ? colors.text : '#696969',
                         fontSize: 34,
-                        color: 'dimgray',
                     }}>
                         {schedule.setTemp.toLocaleString()}°C
                     </Text>
-                    <Text>{t('schedule:' + schedule.repeat)}</Text>
+                    <ThemedText>{t('schedule:' + schedule.repeat)}</ThemedText>
                 </View>
-                <Text>
+                <ThemedText>
                     {t('schedule:Start')}: {format.format(schedule.startDate)}
-                </Text>
-                <Text>
+                </ThemedText>
+                <ThemedText>
                     {t('schedule:End')}: {format.format(schedule.endDate)}
-                </Text>
+                </ThemedText>
                 {schedule.weekdays &&
-                    <Text>
+                    <ThemedText>
                         {t('schedule:On')}: {schedule.weekdays.map(el => ShortWeekdayNames[el - 1]).join(", ")}
-                    </Text>
+                    </ThemedText>
                 }
             </View>
         )
     }
 }
 
-export default withTranslation()(ScheduleView);
+export default (props) => {
+    const theme = useTheme();
+    const { t, i18n } = useTranslation();
+
+    return <ScheduleView {...props} t={t} i18n={i18n} theme={theme} />
+}
