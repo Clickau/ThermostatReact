@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@react-navigation/native';
 
@@ -31,39 +31,41 @@ class ScheduleView extends React.Component {
         const format = schedule.repeat === 'Once' ? fullDateFormat : timeFormat;
 
         return (
-            <View style={{
-                marginTop: 20,
-                marginHorizontal: 20,
-                padding: 20,
-                borderWidth: 1,
-                borderRadius: 10,
-                borderColor: colors.border,
-                backgroundColor: colors.card,
-            }}>
+            <TouchableOpacity onPress={this.props.onPress}>
                 <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
+                    marginTop: 20,
+                    marginHorizontal: 20,
+                    padding: 20,
+                    borderWidth: 1,
+                    borderRadius: 10,
+                    borderColor: colors.border,
+                    backgroundColor: colors.card,
                 }}>
-                    <Text style={{
-                        color: dark ? colors.text : '#696969',
-                        fontSize: 34,
+                    <View style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
                     }}>
-                        {schedule.setTemp.toLocaleString()}°C
-                    </Text>
-                    <ThemedText>{t('schedule:' + schedule.repeat)}</ThemedText>
-                </View>
-                <ThemedText>
-                    {t('schedule:Start')}: {format.format(schedule.startDate)}
-                </ThemedText>
-                <ThemedText>
-                    {t('schedule:End')}: {format.format(schedule.endDate)}
-                </ThemedText>
-                {schedule.weekdays &&
+                        <Text style={{
+                            color: dark ? colors.text : '#696969',
+                            fontSize: 34,
+                        }}>
+                            {schedule.setTemp.toLocaleString()}°C
+                        </Text>
+                        <ThemedText>{t('schedule:' + schedule.repeat)}</ThemedText>
+                    </View>
                     <ThemedText>
-                        {t('schedule:On')}: {schedule.weekdays.map(el => ShortWeekdayNames[el - 1]).join(", ")}
+                        {t('schedule:Start')}: {format.format(schedule.startDate)}
                     </ThemedText>
-                }
-            </View>
+                    <ThemedText>
+                        {t('schedule:End')}: {format.format(schedule.endDate)}
+                    </ThemedText>
+                    {schedule.weekdays &&
+                        <ThemedText>
+                            {t('schedule:On')}: {schedule.weekdays.map(el => ShortWeekdayNames[el - 1]).join(", ")}
+                        </ThemedText>
+                    }
+                </View>
+            </TouchableOpacity>
         )
     }
 }

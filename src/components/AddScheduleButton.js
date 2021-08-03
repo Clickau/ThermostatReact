@@ -10,16 +10,18 @@ class AddScheduleButton extends React.Component {
 
         const t = this.props.t;
         return (
-            <TouchableOpacity style={{
-                marginTop: 20,
-                marginHorizontal: 20,
-                padding: 10,
-                borderWidth: 1,
-                borderRadius: 10,
-                borderColor: colors.border,
-                flexDirection: 'row',
-                backgroundColor: colors.card,
-            }}>
+            <TouchableOpacity
+                style={{
+                    marginTop: 20,
+                    marginHorizontal: 20,
+                    padding: 10,
+                    borderWidth: 1,
+                    borderRadius: 10,
+                    borderColor: colors.border,
+                    flexDirection: 'row',
+                    backgroundColor: colors.card,
+                }}
+                onPress={this.props.onPress} >
                 <Icon name='add' color={colors.primary} size={20} style={{
                     marginRight: 'auto',
                 }} />

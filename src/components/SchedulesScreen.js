@@ -24,12 +24,12 @@ class SchedulesScreen extends React.Component {
             }}>
                 <FlatList
                     data={this.state.schedules}
-                    renderItem={({ item }) => <ScheduleView schedule={item} />}
+                    renderItem={({ item }) => <ScheduleView schedule={item} onPress={this.onPressSchedule.bind(this)} />}
                     keyExtractor={item => `${item.setTemp}_${item.repeat}_${item.weekdays}_${item.startDate}_${item.endDate}`}
                     showsVerticalScrollIndicator={false}
                     onRefresh={this.onRefresh.bind(this)}
                     refreshing={this.state.refreshing}
-                    ListHeaderComponent={AddScheduleButton} />
+                    ListHeaderComponent={<AddScheduleButton onPress={this.onPressAddSchedule.bind(this)} />} />
             </View>
         )
     }
@@ -41,6 +41,14 @@ class SchedulesScreen extends React.Component {
     onRefresh() {
         this.setState({ refreshing: true });
         fetchDummyData().then(data => this.setState({ refreshing: false, schedules: data }));
+    }
+
+    onPressAddSchedule() {
+        this.props.navigation.navigate('ModifySchedule');
+    }
+
+    onPressSchedule() {
+        this.props.navigation.navigate('ModifySchedule');
     }
 }
 

@@ -1,8 +1,12 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import { Appearance } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import SchedulesScreen from './components/SchedulesScreen';
+import ModifyScheduleScreen from './components/ModifyScheduleScreen';
+
+const Stack = createStackNavigator();
 
 export default class App extends React.Component {
     render() {
@@ -11,7 +15,15 @@ export default class App extends React.Component {
 
         return (
             <NavigationContainer theme={theme}>
-                <SchedulesScreen />
+                <Stack.Navigator screenOptions={{
+                    headerStyle: {
+                        backgroundColor: theme.colors.primary,
+                    },
+                    headerTintColor: 'white',
+                }}>
+                    <Stack.Screen name='Schedules' component={SchedulesScreen} />
+                    <Stack.Screen name='ModifySchedule' component={ModifyScheduleScreen} />
+                </Stack.Navigator>
             </NavigationContainer>
         )
     }
