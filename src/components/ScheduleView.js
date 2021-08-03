@@ -7,14 +7,10 @@ import { ShortWeekdayNames } from '../Utils';
 import ThemedText from './ThemedText';
 
 class ScheduleView extends React.Component {
-    state = {
-        schedule: this.props.schedule
-    }
-
     render() {
         const t = this.props.t;
         const { dark, colors } = this.props.theme;
-        const schedule = this.state.schedule;
+        const schedule = this.props.schedule;
 
         const fullDateFormat = new Intl.DateTimeFormat(undefined, {
             year: 'numeric',
