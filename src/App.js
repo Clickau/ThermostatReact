@@ -8,25 +8,23 @@ import ModifyScheduleScreen from './components/ModifyScheduleScreen';
 
 const Stack = createStackNavigator();
 
-export default class App extends React.Component {
-    render() {
-        const colorScheme = Appearance.getColorScheme();
-        const theme = colorScheme === 'dark' ? themes.dark : themes.light;
+export default function App() {
+    const colorScheme = Appearance.getColorScheme();
+    const theme = colorScheme === 'dark' ? themes.dark : themes.light;
 
-        return (
-            <NavigationContainer theme={theme}>
-                <Stack.Navigator screenOptions={{
-                    headerStyle: {
-                        backgroundColor: theme.colors.primary,
-                    },
-                    headerTintColor: 'white',
-                }}>
-                    <Stack.Screen name='Schedules' component={SchedulesScreen} />
-                    <Stack.Screen name='ModifySchedule' component={ModifyScheduleScreen} />
-                </Stack.Navigator>
-            </NavigationContainer>
-        )
-    }
+    return (
+        <NavigationContainer theme={theme}>
+            <Stack.Navigator screenOptions={{
+                headerStyle: {
+                    backgroundColor: theme.colors.primary,
+                },
+                headerTintColor: 'white',
+            }}>
+                <Stack.Screen name='Schedules' component={SchedulesScreen} />
+                <Stack.Screen name='ModifySchedule' component={ModifyScheduleScreen} />
+            </Stack.Navigator>
+        </NavigationContainer>
+    )
 }
 
 const themes = {

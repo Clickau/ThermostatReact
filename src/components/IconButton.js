@@ -4,7 +4,7 @@ import { useTheme } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ThemedText from './ThemedText';
 
-export default function IconButton(props) {
+export default function IconButton({ iconName, text, textStyle }) {
     const { colors } = useTheme();
     return (
         <TouchableOpacity style={{
@@ -12,12 +12,12 @@ export default function IconButton(props) {
             alignItems: 'center',
             paddingVertical: 10,
         }}>
-            <Icon name={props.iconName} color={colors.icon} size={26} style={{
+            <Icon name={iconName} color={colors.icon} size={26} style={{
                 marginLeft: 10,
             }} />
-            <ThemedText style={[props.textStyle, {
+            <ThemedText style={[textStyle, {
                 marginLeft: 20,
-            }]}>{props.text}</ThemedText>
+            }]}>{text}</ThemedText>
         </TouchableOpacity>
     )
 }

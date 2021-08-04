@@ -2,21 +2,13 @@ import React from 'react';
 import { useTheme } from '@react-navigation/native';
 import { Text } from 'react-native';
 
-class ThemedText extends React.Component {
-    render() {
-        const { colors } = this.props.theme;
-        return (
-            <Text {...this.props} style={[this.props.style, {
-                color: colors.text,
-            }]}>
-                {this.props.children}
-            </Text>
-        )
-    }
-}
-
-export default (props) => {
-    const theme = useTheme();
-
-    return <ThemedText {...props} theme={theme} />
+export default function ThemedText(props) {
+    const { colors } = useTheme();
+    return (
+        <Text {...props} style={[props.style, {
+            color: colors.text,
+        }]}>
+            {props.children}
+        </Text>
+    )
 }
