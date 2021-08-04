@@ -25,7 +25,7 @@ class SchedulesScreen extends React.Component {
             }}>
                 <FlatList
                     data={this.state.schedules}
-                    renderItem={({ item }) => <ScheduleView schedule={item} onPress={this.onPressSchedule.bind(this)} />}
+                    renderItem={({ item, index }) => <ScheduleView schedule={item} onPress={this.onPressSchedule.bind(this, index)} />}
                     keyExtractor={item => `${item.setTemp}_${item.repeat}_${item.weekdays}_${item.startDate}_${item.endDate}`}
                     showsVerticalScrollIndicator={false}
                     onRefresh={this.onRefresh.bind(this)}
@@ -47,11 +47,11 @@ class SchedulesScreen extends React.Component {
     }
 
     onPressAddSchedule() {
-        this.props.navigation.navigate('ModifySchedule');
+        this.props.navigation.navigate('ModifySchedule', { action: 'Add' });
     }
 
-    onPressSchedule() {
-        this.props.navigation.navigate('ModifySchedule');
+    onPressSchedule(index) {
+        this.props.navigation.navigate('ModifySchedule', { action: 'Modify', schedule: JSON.stringify(this.state.schedules[index]), index: index });
     }
 }
 

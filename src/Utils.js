@@ -1,4 +1,4 @@
-function getShortWeekdayNames() {
+export function getShortWeekdayNames() {
     var array = [];
     // 18 July 2021 was Sunday
     for (var i = 0; i < 7; i++) {
@@ -8,4 +8,6 @@ function getShortWeekdayNames() {
     return array;
 }
 
-export var ShortWeekdayNames = getShortWeekdayNames();
+export function getWeekdayInitials() {
+    return getShortWeekdayNames().map(el => el[0].toUpperCase());
+}

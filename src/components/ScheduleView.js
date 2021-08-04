@@ -3,7 +3,7 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@react-navigation/native';
 
-import { ShortWeekdayNames } from '../Utils';
+import { getShortWeekdayNames } from '../Utils';
 import ThemedText from './ThemedText';
 
 class ScheduleView extends React.Component {
@@ -57,7 +57,7 @@ class ScheduleView extends React.Component {
                     </ThemedText>
                     {schedule.weekdays &&
                         <ThemedText>
-                            {t('schedule:On')}: {schedule.weekdays.map(el => ShortWeekdayNames[el - 1]).join(", ")}
+                            {t('schedule:On')}: {schedule.weekdays.map(el => getShortWeekdayNames()[el - 1]).join(", ")}
                         </ThemedText>
                     }
                 </View>

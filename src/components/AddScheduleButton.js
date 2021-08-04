@@ -31,7 +31,7 @@ class AddScheduleButton extends React.Component {
                     fontWeight: 'bold',
                     marginRight: 'auto',
                 }}>
-                    {t('schedulesScreen:Add Schedule')}
+                    {t('Add Schedule')}
                 </Text>
             </TouchableOpacity>
         )

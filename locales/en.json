@@ -1,6 +1,8 @@
 {
     "common": {
-        "Schedules": "Schedules"
+        "Schedules": "Schedules",
+        "Modify Schedule": "Modify Schedule",
+        "Add Schedule": "Add Schedule"
     },
     "schedule": {
         "Daily": "Daily",
@@ -9,8 +11,5 @@
         "Start": "Start",
         "End": "End",
         "On": "On"
-    },
-    "schedulesScreen": {
-        "Add Schedule": "Add Schedule"
     }
 }

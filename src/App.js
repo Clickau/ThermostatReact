@@ -38,6 +38,7 @@ const themes = {
             card: 'white',
             text: 'black',
             border: '#d3d3d3',
+            icon: 'gray',
         }
     },
     dark: {
@@ -48,6 +49,7 @@ const themes = {
             card: '#141414',
             text: 'white',
             border: '#404040',
+            icon: 'lightgray',
         }
     }
 }
