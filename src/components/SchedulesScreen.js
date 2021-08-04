@@ -5,6 +5,7 @@ import { useTheme } from '@react-navigation/native';
 import ScheduleView from './ScheduleView';
 import fetchDummyData from '../DummyData';
 import AddScheduleButton from './AddScheduleButton';
+import { useTranslation } from 'react-i18next';
 
 class SchedulesScreen extends React.Component {
     state = {
@@ -35,6 +36,8 @@ class SchedulesScreen extends React.Component {
     }
 
     componentDidMount() {
+        const t = this.props.t;
+        this.props.navigation.setOptions({ title: t('Schedules') });
         this.onRefresh();
     }
 
@@ -54,6 +57,7 @@ class SchedulesScreen extends React.Component {
 
 export default (props) => {
     const theme = useTheme();
+    const { t, i18n } = useTranslation();
 
-    return <SchedulesScreen {...props} theme={theme} />
+    return <SchedulesScreen {...props} t={t} i18n={i18n} theme={theme} />
 }
