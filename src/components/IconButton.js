@@ -4,10 +4,10 @@ import { useTheme } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ThemedText from './ThemedText';
 
-export default function IconButton({ iconName, text, textStyle }) {
+export default function IconButton({ iconName, text, textStyle, onPress }) {
     const { colors } = useTheme();
     return (
-        <TouchableOpacity style={{
+        <TouchableOpacity onPress={onPress} style={{
             flexDirection: 'row',
             alignItems: 'center',
             paddingVertical: 10,

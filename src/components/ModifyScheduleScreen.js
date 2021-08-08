@@ -5,6 +5,7 @@ import { useTheme } from '@react-navigation/native';
 import { getWeekdayInitials } from '../Utils';
 import IconButton from './IconButton';
 import ThemedText from './ThemedText';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 
 class ModifyScheduleScreen extends React.Component {
     render() {
@@ -29,24 +30,28 @@ class ModifyScheduleScreen extends React.Component {
                         paddingVertical: 10,
                     }}>
                         {
-                            getWeekdayInitials().map((letter, index) => (
-                                <TouchableWithoutFeedback key={index}>
-                                    <View style={{
-                                        width: 36,
-                                        height: 36,
-                                        borderRadius: 36/2,
-                                        backgroundColor: colors.primary,
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                    }}>
-                                        <Text style={{
-                                            color: 'white',
+                            getWeekdayInitials().map((letter, index) => {
+                                index++;
+                                let selected = this.state.schedule.weekdays.includes(index);
+                                return (
+                                    <TouchableWithoutFeedback key={index} onPress={() => this.onPressWeekday(index)}>
+                                        <View style={{
+                                            width: 36,
+                                            height: 36,
+                                            borderRadius: 36/2,
+                                            backgroundColor: selected ? colors.primary : 'transparent',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
                                         }}>
-                                            {letter}
-                                        </Text>
-                                    </View>
-                                </TouchableWithoutFeedback>
-                            ))
+                                            <Text style={{
+                                                color: selected ? 'white' : colors.text,
+                                            }}>
+                                                {letter}
+                                            </Text>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                )
+                            })
                         }
                     </View>
                 }
@@ -54,14 +59,22 @@ class ModifyScheduleScreen extends React.Component {
                     flexDirection: 'row',
                     alignItems: 'center',
                 }}>
-                    <IconButton iconName='clock-outline' text={timeFormat.format(this.state.schedule.startDate)} textStyle={{
-                        fontSize: 18,
-                    }} />
+                    <IconButton
+                        iconName='clock-outline'
+                        text={timeFormat.format(this.state.schedule.startDate)}
+                        textStyle={{
+                            fontSize: 18,
+                        }}
+                        onPress={() => this.showDateTimePicker('start-time')}
+                    />
                     {this.state.schedule.repeat === 'Once' &&
-                        <TouchableOpacity style={{
-                            marginLeft: 'auto',
-                            paddingRight: 10,
-                        }}>
+                        <TouchableOpacity
+                            style={{
+                                marginLeft: 'auto',
+                                paddingRight: 10,
+                            }}
+                            onPress={() => this.showDateTimePicker('start-date')}
+                        >
                             <ThemedText style={{
                                 fontSize: 18,
                             }}>
@@ -74,10 +87,13 @@ class ModifyScheduleScreen extends React.Component {
                     flexDirection: 'row',
                     alignItems: 'center',
                 }}>
-                    <TouchableOpacity style={{
-                        paddingVertical: 10,
-                        paddingLeft: 56,
-                    }}>
+                    <TouchableOpacity
+                        style={{
+                            paddingVertical: 10,
+                            paddingLeft: 56,
+                        }}
+                        onPress={() => this.showDateTimePicker('end-time')}
+                    >
                         <ThemedText style={{
                             fontSize: 18,
                         }}>
@@ -85,10 +101,13 @@ class ModifyScheduleScreen extends React.Component {
                         </ThemedText>
                     </TouchableOpacity>
                     {this.state.schedule.repeat === 'Once' &&
-                        <TouchableOpacity style={{
-                            marginLeft: 'auto',
-                            paddingRight: 10,
-                        }}>
+                        <TouchableOpacity
+                            style={{
+                                marginLeft: 'auto',
+                                paddingRight: 10,
+                            }}
+                            onPress={() => this.showDateTimePicker('end-date')}
+                        >
                             <ThemedText style={{
                                 fontSize: 18,
                             }}>
@@ -97,8 +116,65 @@ class ModifyScheduleScreen extends React.Component {
                         </TouchableOpacity>
                     }
                 </View>
+                <DateTimePicker 
+                    isVisible={this.state.dateTimePicker.isVisible} 
+                    mode={this.state.dateTimePicker.selected.includes('date') ? 'date' : 'time'}
+                    onConfirm={(date) => this.onConfirmDateTimePicker(date)}
+                    onCancel={() => this.hideDateTimePicker()}
+                />
             </View>
         )
+    }
+
+    onPressWeekday(day) {
+        let weekdays = [];
+        if (this.state.schedule.weekdays.includes(day)) {
+            weekdays = [...this.state.schedule.weekdays];
+            weekdays.splice(weekdays.indexOf(day), 1);
+        }
+        else {
+            for (let i = 1; i <= 7; i++) {
+                if (day === i || this.state.schedule.weekdays.includes(i))
+                    weekdays.push(i);
+            }
+        }
+        this.setState({ schedule: {...this.state.schedule, weekdays} });
+    }
+
+    showDateTimePicker(selected) {
+        this.setState({ dateTimePicker: {
+            isVisible: true,
+            selected: selected,
+        }});
+    }
+
+    onConfirmDateTimePicker(date) {
+        const startDate = new Date(this.state.schedule.startDate);
+        const endDate = new Date(this.state.schedule.endDate);
+
+        switch (this.state.dateTimePicker.selected) {
+        case 'start-time':
+            startDate.setHours(date.getHours(), date.getMinutes());
+            break;
+        case 'start-date':
+            startDate.setFullYear(date.getFullYear(), date.getMonth(), date.getDate());
+            break;
+        case 'end-time':
+            endDate.setHours(date.getHours(), date.getMinutes());
+            break;
+        case 'end-date':
+            endDate.setFullYear(date.getFullYear(), date.getMonth(), date.getDate());
+            break;
+        }
+        this.setState({ schedule: {...this.state.schedule, startDate, endDate} });
+        this.hideDateTimePicker();
+    }
+
+    hideDateTimePicker() {
+        this.setState({ dateTimePicker: {
+            isVisible: false,
+            selected: '',
+        }});
     }
 
     componentDidMount() {
@@ -119,6 +195,10 @@ class ModifyScheduleScreen extends React.Component {
 
         this.state = {
             schedule: schedule,
+            dateTimePicker: {
+                isVisible: false,
+                selected: '',
+            },
         };
     }
 }
