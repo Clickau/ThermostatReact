@@ -1,11 +1,12 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, Text, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableWithoutFeedback, TouchableOpacity, FlatList } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { getWeekdayInitials } from '../Utils';
 import IconButton from './IconButton';
 import ThemedText from './ThemedText';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import ReactNativeModal from 'react-native-modal';
 
 class ModifyScheduleScreen extends React.Component {
     render() {
@@ -17,12 +18,21 @@ class ModifyScheduleScreen extends React.Component {
                 alignItems: 'stretch',
                 backgroundColor: colors.background,
             }}>
-                <IconButton iconName='thermometer' text={this.state.schedule.setTemp.toLocaleString() + '°C'} textStyle={{
-                    fontSize: 26,
-                }} />
-                <IconButton iconName='repeat' text={t('schedule:' + this.state.schedule.repeat)} textStyle={{
-                    fontSize: 18,
-                }} />
+                <IconButton
+                    iconName='thermometer'
+                    text={this.state.schedule.setTemp.toLocaleString() + '°C'}
+                        textStyle={{
+                        fontSize: 26,
+                    }}
+                />
+                <IconButton
+                    iconName='repeat'
+                    text={t('schedule:' + this.state.schedule.repeat)}
+                    textStyle={{
+                        fontSize: 18,
+                    }}
+                    onPress={() => this.showRepeatPicker()}
+                />
                 {this.state.schedule.repeat === 'Weekly' &&
                     <View style={{
                         flexDirection: 'row',
@@ -122,8 +132,61 @@ class ModifyScheduleScreen extends React.Component {
                     onConfirm={(date) => this.onConfirmDateTimePicker(date)}
                     onCancel={() => this.hideDateTimePicker()}
                 />
+                <ReactNativeModal
+                    isVisible={this.state.repeatPickerVisible}
+                    onBackButtonPress={() => this.hideRepeatPicker()}
+                    onBackdropPress={() => this.hideRepeatPicker()}
+                    useNativeDriverForBackdrop={true} // to remove flickering during animation
+                    animationIn='fadeIn'
+                    animationOut='fadeOut'
+                >
+                    <View style={{
+                        backgroundColor: colors.card,
+                    }}>
+                        <FlatList
+                            data={['Daily', 'Weekly', 'Once']}
+                            renderItem={({ item }) => (
+                                <TouchableOpacity
+                                    style={{
+                                        padding: 20,
+                                    }}
+                                    onPress={() => this.onSelectRepeat(item)} >
+                                    <ThemedText style={{
+                                        fontSize: 18,
+                                    }}>
+                                        {t('schedule:' + item)}
+                                    </ThemedText>
+                                </TouchableOpacity>
+                            )}
+                            keyExtractor={item => item}
+                        />
+                    </View>
+                </ReactNativeModal>
             </View>
         )
+    }
+
+    showRepeatPicker() {
+        this.setState({ repeatPickerVisible: true });
+    }
+
+    hideRepeatPicker() {
+        this.setState({ repeatPickerVisible: false });
+    }
+
+    onSelectRepeat(repeat) {
+        const schedule = {...this.state.schedule, repeat: repeat};
+
+        if (repeat === 'Weekly' && !schedule.weekdays)
+            schedule.weekdays = [];
+        let date = new Date();
+        if (repeat === 'Once' && schedule.startDate.getFullYear() === 1970)
+            schedule.startDate.setFullYear(date.getFullYear(), date.getMonth(), date.getDate());
+        if (repeat === 'Once' && schedule.endDate.getFullYear() === 1970)
+            schedule.endDate.setFullYear(date.getFullYear(), date.getMonth(), date.getDate());
+
+        this.setState({ schedule: schedule });
+        this.hideRepeatPicker();
     }
 
     onPressWeekday(day) {
@@ -199,6 +262,7 @@ class ModifyScheduleScreen extends React.Component {
                 isVisible: false,
                 selected: '',
             },
+            repeatPickerVisible: false,
         };
     }
 }
